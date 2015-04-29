@@ -29,7 +29,7 @@ describe('helpers', function () {
         });
 
         it('throws an error if normalizers are not of type Array', function () {
-            expect(reduce.bind(null, 'foo', 'bar')).to.throw(/no method 'reduce'/);
+            expect(reduce.bind(null, 'foo', 'bar')).to.throw();
         });
 
         it('throws an error if a normalizer is not a function', function () {

@@ -23,8 +23,8 @@ describe('helpers', function () {
 
         it('throws an error if a non-object passed', function () {
 
-            [1, null, undefined].forEach(function (item) {
-                expect(walk.bind(null, item)).to.throw(/called on non-object/);
+            [null, undefined].forEach(function (item) {
+                expect(walk.bind(null, item)).to.throw();
             });
 
             [[], {}, 'foo'].forEach(function (item) {
