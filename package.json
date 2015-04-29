@@ -1,17 +1,16 @@
 {
   "name": "bureaucat",
   "version": "0.1.0",
-  "description": "Templated transformation for JSON",
+  "description": "Transforms & normalizes JSON structures like a **`bureaucat`** ( using templates )",
   "main": "lib/index.js",
   "scripts": {
     "clean": "trash --force ./test/coverage",
-    "project": "projectz compile",
     "lint": "eslint ./lib",
     "cover": "npm run clean && istanbul cover --dir ./test/coverage _mocha ./test",
     "test": "npm run clean && npm run lint && mocha ./test",
     "coveralls": "npm run cover && cat ./test/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
-  "author": "Jonathan Barnett <me@indieisaconcept.com>",
+  "author": "Jonathan Barnett <me@indieisaconcept.com> (http://indieisaconcept.com)",
   "repository": {
     "type": "git",
     "url": "http://github.com/indieisaconcept/bureaucat"

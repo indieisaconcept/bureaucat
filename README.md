@@ -1,4 +1,6 @@
-# bureaucat [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-url]][daviddm-image] [![Coverage Status][coveralls-image]][coveralls-url]
+# bureaucat
+
+[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-url]][daviddm-image] [![Coverage Status][coveralls-image]][coveralls-url]
 
 Transforms & normalizes JSON structures like a **`bureaucat`** ( using templates )
 
@@ -110,33 +112,33 @@ A template can also be a function. When used a resolved value is passed to the t
 ```JavaScript
 module.exports = {
     "cats": {
-    
+
         "::bc": {
             "key"      : "cats"
             "normalize": [function () {}, function () {}],
             "template" : function (value) {
 
-			    if (value === 'Garfield') {
-			        return {
-			            "name"    : "@this",
-			            "dislikes": ['Monday']
-			        };
-			    }
-			    
-			    if (value === 'Tardar Sauce') {
-			        return {
-			            "name"    : "@this",
-			            "dislikes": ['everything']
-			        };
-			    }
-			    
-			    return {
-			        "name": "@this"
-			    };
+                if (value === 'Garfield') {
+                    return {
+                        "name"    : "@this",
+                        "dislikes": ['Monday']
+                    };
+                }
 
-			}
+                if (value === 'Tardar Sauce') {
+                    return {
+                        "name"    : "@this",
+                        "dislikes": ['everything']
+                    };
+                }
+
+                return {
+                    "name": "@this"
+                };
+
+            }
         }
-    
+
     }
 };
 ```
@@ -164,11 +166,11 @@ module.exports = {
         "::bc": {
             "key"      : "cats",
             "normalize": {
-            		pre : [function () {}, function () {}],
-            		post: [function () {}, function () {}]
+                    pre : [function () {}, function () {}],
+                    post: [function () {}, function () {}]
             },
             "template": {
-            		.....
+                    .....
             }
         }
     }
