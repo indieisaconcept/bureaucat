@@ -1,0 +1,3 @@
+--reporter list
+--recursive
+--timeout 3000

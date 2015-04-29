@@ -1,0 +1,8 @@
+node_modules/
+temp/
+_temp/
+npm-debug.log
+.DS_Store
+.idea
+test/coverage/
+coverage
