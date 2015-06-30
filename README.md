@@ -186,6 +186,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- **1.0.0** If a value cannot be resolved fallback to passed value
+- **0.1.3** Added support for processing Arrays
 - **0.1.2** node 12 & iojs fixes
 - **0.1.1** Lint fixes
 - **0.1.0** Initial release
