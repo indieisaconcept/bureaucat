@@ -266,6 +266,16 @@ module.exports = {
         },
         input   : { foo: { bar: ['fizz', [{ value: 'buzz' }, { value: 'buzz' }]] } },
         output  : { bar: ['BUZZ-BUZZ', 'BUZZ-BUZZ'] }
+    },
+
+    'supports a transformation template containing Arrays': {
+        template: {
+            foo: [{ bar: 'foo.bar[0]' }, { bar: 'foo.bar[1][0].value' }]
+        },
+        input : { foo: { bar: ['fizz', [{ value: 'buzz' }, { value: 'buzz' }]] } },
+        output: {
+            foo: [{ bar: 'fizz' }, {bar: 'buzz'}]
+        }
     }
 
 };

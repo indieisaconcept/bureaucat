@@ -50,7 +50,7 @@ describe('helpers', function () {
 
         });
 
-        it('calls itself if processing an Object', function () {
+        it('calls itself if processing an Object ( Object || Array )', function () {
 
             var called = false;
 
@@ -74,20 +74,6 @@ describe('helpers', function () {
             };
 
             walk({ foo: { '::bc': {} } });
-            expect(called).to.equal(false);
-
-        });
-
-        it('does not call itself if processing an Array value', function () {
-
-            var called = false;
-
-            helpers.walk = function (input, iterator) {
-                throw new Error('I was called');
-                return walk(input, iterator);
-            };
-
-            walk({ foo: [] });
             expect(called).to.equal(false);
 
         });
