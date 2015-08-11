@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
 
     'returns an Object when input is an Object': {
@@ -173,7 +175,7 @@ module.exports = {
                                 item.value = item.value + '-' + item.value;
                                 return item;
                             });
-                        },
+                        }
                     ]
                 }
             }
@@ -280,6 +282,37 @@ module.exports = {
             bizz: 'buzz',
             foo: {
                 bar : [{ bar: 'fizz' }, {bar: 'buzz'}]
+            }
+        }
+    },
+
+    'supports a transformation template with static data': {
+        template: {
+            bizz: 'buzz',
+            foo: {
+                bar: [{ bar: 'bc.foo.bar[0]' }, { bar: 'bc.foo.bar[1][0].value' }]
+            },
+            some: {
+                static    : 'body',
+                collection: ['this', 'is', 'a', 'fizz']
+            }
+
+        },
+        options: {
+            prefix: 'bc.'
+        },
+        input : {
+            body: 'i should not be set',
+            foo : { bar: ['fizz', [{ value: 'buzz' }, { value: 'buzz' }]] }
+        },
+        output: {
+            bizz: 'buzz',
+            foo: {
+                bar : [{ bar: 'fizz' }, {bar: 'buzz'}]
+            },
+            some: {
+                static    : 'body',
+                collection: ['this', 'is', 'a', 'fizz']
             }
         }
     }

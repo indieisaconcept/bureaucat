@@ -47,7 +47,7 @@ describe('helpers', function () {
 
             var input = {
                     one: {
-                        two: [3, 4, 5, 6, { name: 'seven', value: ['eight'] } ],
+                        two: [3, 4, 5, 6, { name: 'seven', value: ['eight'] } ]
                     }
                 },
 
@@ -70,11 +70,11 @@ describe('helpers', function () {
                     },
                     'Array[i][key]': {
                         key : 'one.two[4][name]',
-                        result: input.one.two[4]['name']
+                        result: input.one.two[4].name
                     },
                     'Array[i][key][i]': {
                         key : 'one.two[4][value][0]',
-                        result: input.one.two[4]['value'][0]
+                        result: input.one.two[4].value[0]
                     }
                 };
 

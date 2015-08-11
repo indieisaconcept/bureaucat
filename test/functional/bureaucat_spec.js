@@ -20,7 +20,7 @@ describe('bureaucat', function () {
 
         it(test, function () {
 
-            var bc     = bureaucat(fixture.template),
+            var bc     = bureaucat(fixture.template, fixture.options),
                 result = bc(fixture.input);
 
             if (fixture.type) {

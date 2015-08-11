@@ -9,8 +9,9 @@
 'use strict';
 
 var helpers = require('../../../lib/helpers/index'),
-    walk    = helpers.walk,
     expect  = require('chai').expect;
+
+var walk    = helpers.walk;
 
 describe('helpers', function () {
 
@@ -68,9 +69,8 @@ describe('helpers', function () {
 
             var called = false;
 
-            helpers.walk = function (input, iterator) {
+            helpers.walk = function () {
                 throw new Error('I was called');
-                return walk(input, iterator);
             };
 
             walk({ foo: { '::bc': {} } });
@@ -91,13 +91,9 @@ describe('helpers', function () {
         });
 
         it('throws an error if iterator throws an error', function () {
-
-            var called = false;
-
             expect(walk.bind(null, { foo: { '::bc': {} } }, function () {
                 throw new Error('fail');
             })).to.throw(/fail/);
-
         });
 
     });
