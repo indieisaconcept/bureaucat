@@ -9,14 +9,15 @@
 'use strict';
 
 var getImplementation = require('../../lib/index_implementation'),
-    expect            = require('chai').expect;
+    expect            = require('chai').expect,
+    noop              = function () {};
 
 describe('bureaucat', function () {
 
     it('is a function', function () {
         var bureaucat = getImplementation();
         expect(bureaucat).to.be.a('function');
-        expect(bureaucat.length).to.equal(1);
+        expect(bureaucat.length).to.equal(2);
     });
 
     it('throws an error if no template specified', function () {
@@ -24,8 +25,19 @@ describe('bureaucat', function () {
         expect(bureaucat).to.throw(/requires a template/);
     });
 
+    it('calls helpers.options with correct arguments', function () {
+        var called    = false,
+            bureaucat = getImplementation({
+                options: function () {
+                    called = true;
+                }
+            });
+        bureaucat({});
+        expect(called).to.equal(true);
+    });
+
     it('returns a function if a template is specified', function () {
-        var bureaucat = getImplementation();
+        var bureaucat = getImplementation({ options: noop });
         expect(bureaucat({})).to.be.a('function');
     });
 
@@ -60,9 +72,9 @@ describe('bureaucat', function () {
                         expect(interator).to.be.a('function');
                         return { key: words[index].word };
                     }
-                }),
+                });
 
-                result = bureaucat.transform(template, function () {}, words);
+                bureaucat.transform(template, function () {}, words);
                 expect(calledCount).to.equal(words.length);
 
         });
@@ -80,7 +92,7 @@ describe('bureaucat', function () {
                     walk: function (template, interator) {
                         expect(interator).to.be.a('function');
                         calledCount++;
-                        return { key: fixture.input.word }
+                        return { key: fixture.input.word };
                     }
                 }),
 
@@ -98,7 +110,7 @@ describe('bureaucat', function () {
         it('is a function', function () {
             var processor = getImplementation().process;
             expect(processor).to.be.a('function');
-            expect(processor.length).to.equal(2);
+            expect(processor.length).to.equal(3);
         });
 
         [
@@ -131,6 +143,15 @@ describe('bureaucat', function () {
                     }
                 },
                 called: { resolve: 2 }
+            }, {
+                name   : 'when key a number',
+                fixture: {
+                    key: 1,
+                    input: {
+                        foo: { bar: 'buzz', buzz: 'buzz' }
+                    }
+                },
+                called: { resolve: 0 }
             }
 
         ].forEach(function (test) {
@@ -143,22 +164,25 @@ describe('bureaucat', function () {
                         processor   = getImplementation({
                             resolve: function (input, key) {
 
+                                expect(key).to.be.a('string');
                                 calledCount++;
 
                                 var match = test.fixture.key;
+                                match = typeof match === 'number' ? '' + match : match;
                                 match = match['::bc'] ? match['::bc'].key : match;
                                 match = match.split(/[,\s]+/);
 
                                 expect(input).to.eql(test.fixture.input);
-                                expect(key).to.equal(match[calledCount -1]);
+                                expect(key).to.equal(match[calledCount - 1]);
 
                                 return 'buzz';
 
                             },
+                            options: function() { return {}; },
                             reduce: function () { return 'buzz'; }
                         }).process;
 
-                    processor(test.fixture.input, test.fixture.key);
+                    processor({}, test.fixture.input, test.fixture.key);
                     expect(calledCount).to.equal(test.called.resolve);
 
                 });
@@ -173,7 +197,7 @@ describe('bureaucat', function () {
                             }
                         }).process;
 
-                    processor(test.fixture.input, test.fixture.key);
+                    processor({}, test.fixture.input, test.fixture.key);
 
                 });
 
@@ -215,7 +239,8 @@ describe('bureaucat', function () {
                         },
                         processor = getImplementation({
                             resolve: function () { return 'foo'; },
-                            reduce : function (value, normalizers) {
+                            options: function () { return {}; },
+                            reduce : function () {
                                 calledCount++;
                             }
                         }).process;
@@ -224,14 +249,13 @@ describe('bureaucat', function () {
                         fixture.key['::bc'].normalize = test.normalize;
                     }
 
-                    processor(fixture.input, fixture.key);
+                    processor({}, fixture.input, fixture.key);
                     expect(calledCount).to.equal(test.count);
 
                 });
 
-
             });
-        }),
+        });
 
         it('calls self.transform if "::bc.template"', function () {
 
@@ -247,22 +271,23 @@ describe('bureaucat', function () {
 
                 implementation = getImplementation({
                     resolve: function () { return ['buzz']; },
-                    reduce : function (value, normalizers) {}
+                    options: function () { return {}; },
+                    reduce : function () {}
                 }),
 
                 transform = implementation.transform,
                 processor = implementation.process,
                 result;
 
-            implementation.transform = function (template, iterator, input) {
+            implementation.transform = function (template, options, input) {
                 expect(template).to.eql(fixture.key['::bc'].template);
-                expect(iterator).to.be.a('function');
+                expect(options).to.be.an('object');
                 expect(input).to.eql(fixture.input.foo);
                 implementation.transform = transform;
                 return fixture.result;
             };
 
-            result = processor(fixture.input, fixture.key);
+            result = processor({}, fixture.input, fixture.key);
 
             expect(result).to.eql(fixture.result);
 
@@ -290,22 +315,23 @@ describe('bureaucat', function () {
 
                 implementation = getImplementation({
                     resolve: function () { return ['buzz']; },
-                    reduce : function (value, normalizers) {}
+                    options: function () { return {}; },
+                    reduce : function () {}
                 }),
 
                 transform = implementation.transform,
                 processor = implementation.process,
                 result;
 
-            implementation.transform = function (template, iterator, input) {
+            implementation.transform = function (template, options, input) {
                 expect(template).to.eql({ value: '@this' });
-                expect(iterator).to.be.a('function');
+                expect(options).to.be.an('object');
                 expect(input).to.eql(fixture.input.foo);
                 implementation.transform = transform;
                 return fixture.result;
             };
 
-            result = processor(fixture.input, fixture.key);
+            result = processor({}, fixture.input, fixture.key);
 
             expect(result).to.eql(fixture.result);
             expect(called).to.equal(true);

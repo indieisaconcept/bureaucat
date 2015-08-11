@@ -1,6 +1,6 @@
 {
   "name": "bureaucat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Transforms & normalizes JSON structures like a **`bureaucat`** ( using templates )",
   "main": "lib/index.js",
   "scripts": {

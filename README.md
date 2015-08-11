@@ -28,6 +28,18 @@ bc({
 ```
 > 1.1 Example invocation
 
+### options
+
+`bureaucat` supports the following options which are passed as an optional second arguments as an object.
+
+```JavaScript
+var bc = bureaucat(template, {
+        prefix: 'bc::'    // should resolvable values be prefixed with a token?
+    });
+```
+
+*prefix* values which are to be resolved should follow the format of <prefix>.value>
+
 ### Templates
 A template defines the rules used for transformation, and generally reflects what the result will look like after transformation.
 
@@ -61,6 +73,10 @@ Each key value in a template represents a dot notation string which is used to a
 - some.array[0][1].value
 
 > 1.3 An example of keys
+
+Note any value will be interpreted as a possible key. Or traversed in the case of an Array or Object, in search of a key.
+
+Specify a prefix via options for more control over this behavior.
 
 #### Advanced
 A `::bc` transformation object can be used to provide finer control over the transformation of a value. To use this feature you must structure your template as per the below example.
@@ -186,6 +202,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- **1.0.1**
+    - skip non-parsable inputs eg: number
+    - added support for options.prefix for value resolution
 - **1.0.0** If a value cannot be resolved fallback to passed value
 - **0.1.3** Added support for processing Arrays
 - **0.1.2** node 12 & iojs fixes

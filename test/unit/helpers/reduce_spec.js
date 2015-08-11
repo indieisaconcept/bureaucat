@@ -68,7 +68,7 @@ describe('helpers', function () {
 
                     var normalizers = [
                             function (val) { return val + 1; },
-                            function (val) { throw new Error('failed'); }
+                            function () { throw new Error('failed'); }
                         ];
 
                     expect(reduce.bind(null, 0, normalizers)).to.throw(/failed/);
