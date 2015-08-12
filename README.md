@@ -202,6 +202,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- **1.0.2** Move string check higher in execution order for process
 - **1.0.1**
     - skip non-parsable inputs eg: number
     - added support for options.prefix for value resolution
