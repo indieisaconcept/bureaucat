@@ -279,7 +279,6 @@ module.exports = {
         },
         input : { foo: { bar: ['fizz', [{ value: 'buzz' }, { value: 'buzz' }]] } },
         output: {
-            bizz: 'buzz',
             foo: {
                 bar : [{ bar: 'fizz' }, {bar: 'buzz'}]
             }
@@ -351,6 +350,43 @@ module.exports = {
                 static    : 'body',
                 collection: ['this', 'is', 'a', 'fizz'],
                 advanced: 'fizz'
+            }
+        }
+    },
+
+    'does not set the value if it cannot be resolved': {
+        template: {
+            bizz: 'buzz',
+            foo: {
+                bar: [{ bar: 'bc.foo.bar[50]' }, { bar: 'bc.foo.bar[1][0].value' }]
+            },
+            some: {
+                static    : 'body',
+                collection: ['this', 'is', 'a', 'fizz'],
+                advanced  : {
+                    '::bc':{
+                        key     : 'i.do.not.exist[0]',
+                        template: '@this'
+                    }
+                }
+            }
+
+        },
+        options: {
+            prefix: 'bc.'
+        },
+        input : {
+            body: 'i should not be set',
+            foo : { bar: ['fizz', [{ value: 'buzz' }, { value: 'buzz' }]] }
+        },
+        output: {
+            bizz: 'buzz',
+            foo: {
+                bar : [{bar: 'buzz'}]
+            },
+            some: {
+                static    : 'body',
+                collection: ['this', 'is', 'a', 'fizz']
             }
         }
     }
