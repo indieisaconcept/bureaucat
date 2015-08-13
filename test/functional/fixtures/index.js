@@ -286,7 +286,7 @@ module.exports = {
         }
     },
 
-    'supports a transformation template with static data': {
+    'supports a transformation template with static data via prefix': {
         template: {
             bizz: 'buzz',
             foo: {
@@ -313,6 +313,44 @@ module.exports = {
             some: {
                 static    : 'body',
                 collection: ['this', 'is', 'a', 'fizz']
+            }
+        }
+    },
+
+    'supports a transformation template with static data & advanced': {
+        template: {
+            bizz: 'buzz',
+            foo: {
+                bar: [{ bar: 'bc.foo.bar[0]' }, { bar: 'bc.foo.bar[1][0].value' }]
+            },
+            some: {
+                static    : 'body',
+                collection: ['this', 'is', 'a', 'fizz'],
+                advanced  : {
+                    '::bc':{
+                        key     : 'foo.bar[0]',
+                        template: '@this'
+                    }
+                }
+            }
+
+        },
+        options: {
+            prefix: 'bc.'
+        },
+        input : {
+            body: 'i should not be set',
+            foo : { bar: ['fizz', [{ value: 'buzz' }, { value: 'buzz' }]] }
+        },
+        output: {
+            bizz: 'buzz',
+            foo: {
+                bar : [{ bar: 'fizz' }, {bar: 'buzz'}]
+            },
+            some: {
+                static    : 'body',
+                collection: ['this', 'is', 'a', 'fizz'],
+                advanced: 'fizz'
             }
         }
     }
