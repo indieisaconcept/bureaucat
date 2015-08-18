@@ -389,6 +389,37 @@ module.exports = {
                 collection: ['this', 'is', 'a', 'fizz']
             }
         }
+    },
+    'correctly keeps booleans and numerical values': {
+        template: {
+            number : {
+                a: 0,
+                b: -1
+            },
+            boolean: {
+                a: true,
+                b: false
+            },
+            item: 'bc.body'
+        },
+        options: {
+            prefix: 'bc.'
+        },
+        input : {
+            body: 'body',
+            foo : { bar: ['fizz', [{ value: 'buzz' }, { value: 'buzz' }]] }
+        },
+        output: {
+            number : {
+                a: 0,
+                b: -1
+            },
+            boolean: {
+                a: true,
+                b: false
+            },
+            item: 'body'
+        }
     }
 
 };

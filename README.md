@@ -202,6 +202,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- **2.0.1** Ensure booleans & like booleans are retained ( eg: 0 || false )
 - **2.0.0** If a value cannot be resolved it is excluded. Use options.prefix to avoid this behavior
 - **1.0.3** Fixed regression introduced in 1.0.1 with advanced object
 - **1.0.2** Move string check higher in execution order for process
